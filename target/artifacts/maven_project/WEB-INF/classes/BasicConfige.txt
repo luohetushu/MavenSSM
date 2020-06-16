@@ -1,0 +1,36 @@
+设置镜像：修改 setting.xml 文件，把 mirror 改成阿里的镜像
+1、打开 maven 目录下的 conf/setting.xml，注意要是 idea 使用的 maven。
+2、搜索 <mirrors>；找到 <mirrors>。在 <mirrors> 节点下添加。
+  <mirror>
+        <id>alimaven</id>
+        <name>aliyun maven</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        <mirrorOf>central</mirrorOf>
+  </mirror>
+3、运行 MVN 命令时加上 -DarchetypeCatalog=local 参数
+  IntelliJ IDEA -> Preferences: Maven -> Runner: VM Options
+
+自动导包：在 pom.xml 文件中添加依赖时自动导包
+  IntelliJ IDEA -> Preferences: Maven -> Importing: Import Maven Projects Automatically
+依赖提示：添加本地仓库
+  IntelliJ IDEA -> Preferences: Maven -> Repositories:
+
+添加 artifacts：
+  File -> Project Structure -> Artifacts -> + -> Web Application:Exploded->From Modules
+
+设置 Tomcat：
+  Run -> Edit Configurations
+
+设置 webapp 蓝色圆点：
+  File -> Project Structure -> Modules -> + : 添加 Web，然后修改 web.xml 与 web 路径
+                                 ${basedir}/src/main/webapp/WEB-INF	web应用文件目录，web项目的信息，比如存放web.xml、本地图片、jsp视图页面
+
+
+编译问题：
+1、Error:java: 错误: 不支持发行版本 5
+   解决：File -> Project Structure: Project: Project Language Level
+                                   Modules: Language Level             两者一致
+        同时 IntelliJ IDEA -> Preferences: Java Compiler：Project bytecode version  设置一致
+
+
+

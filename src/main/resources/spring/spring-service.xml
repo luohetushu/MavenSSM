@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置声明式事务管理器-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置基于注解的声明式事务 -->
+    <!--<tx:annotation-driven transaction-manager="txManager" />-->
+
+    <!--配置事务通知-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!--配置哪些方法使用什么样的事务，配置事务的传播性：todo 这些方法是代理业务实现类中的方法-->
+            <!--事务传播特性：PROPAGATION_REQUIRED: 如果存在一个事务，则支持当前事务；如果没有事务则开启新的事务-->
+            <tx:method name="save" propagation="REQUIRED"/>
+            <tx:method name="get" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--公共业务类，即切面（某个关注点的模块），使用注解的方式-->
+    <aop:config>
+        <!--代理业务实现类的方法：给这些方式使用事务管理，避免手动提交回滚-->
+        <aop:pointcut id="pointCut" expression="execution(* com.maven.test.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
+    </aop:config>
+
+    <!-- 扫描service包下所有使用注解的类型: @Service -->
+    <context:component-scan base-package="com.maven.test.service" />
+
+
+</beans>

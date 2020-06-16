@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maven.test.dao.AppointDao">
+
+    <!-- 为dao接口方法提供sql语句配置 -->
+    <!--映射器文件 namespace 与 Dao接口 全名一致：包名+类名
+        映射器文件中 aql 语句的 id 与 Dao接口中方法名一致-->
+
+    <!--插入预约图书记录-->
+    <insert id="insertAppoint">
+        INSERT ignore INTO appoint (bid, sid)
+        VALUES (#{bookId}, #{studentId})
+    </insert>
+
+
+    <!--如果列名设置别名，则需要别名与对应实体类的成员属性名一致-->
+    <select id="queryByKeyWithBook" resultMap="associateMap">
+        SELECT
+            a.bid,
+            a.sid,
+            a.appoint_time,
+            b.book_id,
+            b.name,
+            b.number
+        FROM appoint a LEFT OUTER JOIN book b ON a.bid = b.book_id
+        WHERE a.bid = #{bookId} AND a.sid = #{studentId}
+    </select>
+    
+    <resultMap id="associateMap" type="Appoint">
+        <id column="bid" jdbcType="INTEGER" property="bid" javaType="long"/>
+        <id column="sid" jdbcType="INTEGER" property="sid" javaType="long"/>
+        <result column="appoint_time" jdbcType="TIMESTAMP" property="appointTime" javaType="java.util.Date"/>
+        <association property="book" javaType="Book">
+            <id column="book_id" jdbcType="INTEGER" property="bookId" javaType="long"/>
+            <result column="name" property="name"/>
+            <result column="number" property="number"/>
+        </association>
+    </resultMap>
+
+    <select id="queryByKeyWithBooks" resultMap="collectMap">
+        SELECT
+            a.bid,
+            a.sid,
+            a.appoint_time,
+            b.book_id,
+            b.name,
+            b.number
+        FROM appoint a LEFT OUTER JOIN book b ON a.bid = b.book_id
+        WHERE a.sid = #{studentId}
+    </select>
+
+    <!--结果及中的 column 是查询结果表的列名，而不是原先表的列名-->
+    <resultMap id="collectMap" type="Appoint">
+        <!--mybatis 根据id（就是将查询结果表中数值一致的列名设为 id），将数据封装成集合-->
+        <id column="sid" jdbcType="INTEGER" property="sid" javaType="long"/>
+        <result column="bid" jdbcType="INTEGER" property="bid" javaType="long"/>
+        <result column="appoint_time" jdbcType="TIMESTAMP" property="appointTime" javaType="java.util.Date"/>
+        <collection property="books" ofType="Book">
+            <id column="book_id" jdbcType="INTEGER" property="bookId" javaType="long"/>
+            <result column="name" property="name"/>
+            <result column="number" property="number"/>
+        </collection>
+    </resultMap>
+
+</mapper>

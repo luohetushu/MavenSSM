@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maven.test.dao.BookDao">
+
+    <!-- 为dao接口方法提供sql语句配置 -->
+    <!--映射器文件 namespace 与 Dao接口 全名一致：包名+类名
+        映射器文件中 aql 语句的 id 与 Dao接口中方法名一致-->
+
+    <!--根据 图书id 获取单本图书-->
+    <select id="queryById" resultType="Book" parameterType="long">
+        SELECT * FROM book WHERE book_id=#{bookId}
+    </select>
+
+    <!--获取指定条数图书，分页查询-->
+    <select id="queryAll" resultType="Book">
+        SELECT * FROM book ORDER BY book_id LIMIT #{offset, javaType=int}, #{limit, javaType=int}
+    </select>
+
+    <update id="reduceNum" parameterType="long">
+        UPDATE book
+        <set>
+            <if test="bookId != null">number = number - 1</if>
+        </set>
+        WHERE book_id = #{bookId} AND number > 0
+    </update>
+
+</mapper>

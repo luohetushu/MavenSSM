@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maven.test.dao.StudentDao">
+
+    <!-- 为dao接口方法提供sql语句配置 -->
+    <!--映射器文件 namespace 与 Dao接口 全名一致：包名+类名
+        映射器文件中 aql 语句的 id 与 Dao接口中方法名一致-->
+
+    <!--根据实体类对象插入对应数据-->
+    <!--todo mysql存储引擎启用严格模式，该表的字段就要全部填上
+        VALUES (name = #{student.name}, sex = #{student.sex} : // 此种情况，需要该表的字段全部填上才能正常插入成功
+    -->
+    <insert id="insertStudent" parameterType="Student" keyProperty="id" >
+        INSERT ignore INTO student (name, sex)
+        VALUES (#{student.name}, #{student.sex})
+    </insert>
+
+    <!--根据 sid 删除数据-->
+    <delete id="deleteStudent" parameterType="long">
+        DELETE FROM student WHERE id = #{studentId}
+    </delete>
+
+
+</mapper>

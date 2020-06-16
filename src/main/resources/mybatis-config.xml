@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">  <!--DTD Document Type Definition：文档类型定义 外部约束-->
+<configuration>
+
+    <!-- 配置全局属性 -->
+    <settings>
+        <!-- 使用jdbc的getGeneratedKeys获取数据库自增主键值 -->
+        <setting name="useGeneratedKeys" value="true" />
+
+        <!-- 使用列别名替换列名 默认:true -->
+        <setting name="useColumnLabel" value="true" />
+
+        <!-- 开启驼峰命名转换:Table{create_time} -> Entity{createTime} -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+
+    <!--todo 别名设置 与 映射器 定义皆可在 Spring 配置文件中定义-->
+    <!--设置别名：可以为映射器 .xml 文件中指定类型设置别名-->
+    <!--<typeAliases>
+        &lt;!&ndash;给指定类设置别名&ndash;&gt;
+        &lt;!&ndash;<typeAlias type="com.maven.test.entity.Student" alias="Student"/>&ndash;&gt;
+        &lt;!&ndash;为映射器 .xml 文件中，指定包内的，类型设置别名，别名默认为类名 &ndash;&gt;
+        <package name="com.maven.test.entity"/>
+    </typeAliases>-->
+
+    <!--mappers 元素: 包含一组映射器(mapper)-->
+    <!--<mappers>
+        &lt;!&ndash;映射器的 XML 映射文件包含了 SQL 代码和映射定义信息&ndash;&gt;
+        <mapper resource="com/maven/test/mapper/BookMapper.xml"/>
+        &lt;!&ndash; 使用映射器接口实现类的完全限定类名 &ndash;&gt;
+        &lt;!&ndash;<mapper class="com.mybatis.project.mapper.StudentMapper"/>&ndash;&gt;
+        &lt;!&ndash; 将包内的映射器接口实现全部注册为映射器 &ndash;&gt;
+        &lt;!&ndash;<package name="com.ssm.project.mapper"/>&ndash;&gt;
+    </mappers>-->
+
+</configuration>
