@@ -70,7 +70,7 @@ public class AppointExecution {
                 "bookId=" + bookId +
                 ", state=" + state +
                 ", stateInfo='" + stateInfo + '\'' +
+                ", appoint=" + appoint +
                 '}';
     }
-
 }

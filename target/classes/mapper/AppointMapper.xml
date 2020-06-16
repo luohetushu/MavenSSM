@@ -51,7 +51,7 @@
         WHERE a.sid = #{studentId}
     </select>
 
-    <!--结果及中的 column 是查询结果表的列名，而不是原先表的列名-->
+    <!--结果集中的 column 是查询结果表的列名，而不是原先表的列名-->
     <resultMap id="collectMap" type="Appoint">
         <!--mybatis 根据id（就是将查询结果表中数值一致的列名设为 id），将数据封装成集合-->
         <id column="sid" jdbcType="INTEGER" property="sid" javaType="long"/>

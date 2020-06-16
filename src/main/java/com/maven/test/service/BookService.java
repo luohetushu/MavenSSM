@@ -21,7 +21,13 @@ public interface BookService {
      * 查询所有图书
      * @return
      */
-    List<Book> getList();
+    List<Book> getBooks();
+
+    /**
+     * 查询某个学生预约的所有图书
+     * @return
+     */
+    List<Book> getStudentBooks(long studentId);
 
     /**
      * 预约图书
